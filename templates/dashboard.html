@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}
+<title>Byte Picks - DashBoard</title>
+{% endblock %} {% block content %}
+<main id="videolist">
+   <div id="selecters">
+      <div>
+         <label>Sort Time :</label>
+         <select id="time">
+            {% for optionValue, optionLabel in [('daily', 'Day'), ('weekly', 'Week'), ('monthly', 'Month'), ('yearly', 'Year')] %}
+            <option value="{{ optionValue }}" {% if time == optionValue %}selected{% endif %}>{{ optionLabel }}</option>
+            {% endfor %}
+         </select>
+      </div>
+      <div>
+         <label>Language :</label>
+         <select id="language">
+            {% for optionValue, optionLabel in [('EN', '🇬🇧 English'), ('FR', '🇫🇷 French'), ('ES', '🇪🇸 Spanish'), ('RU', '🇷🇺 Russian'), ('HI', '🇮🇳 Hindi')] %}
+            <option value="{{ optionValue }}" {% if language == optionValue %}selected{% endif %}>{{ optionLabel }}</option>
+            {% endfor %}
+         </select>
+      </div>
+   </div>
+
+   <div id="allvideos">
+      {% for video_id, video in videos.items() %}
+      <div class="video">
+         <img onclick="window.location.href='{{ video.VideoUrl }}'" class="yt_thumbnail" alt="YT Thumbnail" src="{{ video.Thumbnail }}" />
+         <img onclick="window.location.href='{{ video.ChannelUrl }}'" class="yt_channel" alt="YT Channel" src="{{ video.ChannelIcon }}" />
+         <p class="duration" onclick="window.location.href='{{ video.VideoUrl }}'">{{ formatDuration(video.Duration) }}</p>
+         <div class="yt_info">
+            <p onclick="window.location.href='{{ video.VideoUrl }}'" style="font-size: 1.15rem">{{ video.VideoTitle }}</p>
+            <p onclick="window.location.href='{{ video.ChannelUrl }}'" style="font-weight: bold">{{ video.ChannelName }}</p>
+            <p onclick="window.location.href='{{ video.VideoUrl }}'" style="font-size: 1rem">{{ formatViewCount(video.ViewCount) }} Views</p>
+         </div>
+      </div>
+      {% endfor %}
+   </div>
+</main>
+{% endblock %}
